@@ -31,7 +31,7 @@ const ListsPage = () => {
     date.setSeconds(list.date);
 
     return (
-      <Box w="100%">
+      <Box w="100%" key={`list-row-${list.id}`}>
         <NextLink href={`/lists/${list.id}`}>
           <HStack>
             <Text minW="25%">{list.name}</Text>

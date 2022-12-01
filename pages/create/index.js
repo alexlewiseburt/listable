@@ -35,38 +35,6 @@ const CreatePage = () => {
           Always give without remembering and always receive without forgetting.
           What are you celebrating today?
         </Heading>
-        {/* <HStack>
-          <VStack bg="gray.100" rounded="lg" p="5" spacing="4">
-            <Heading color={colors.pink} size="sm">
-              Birthday
-            </Heading>
-          </VStack>
-          <VStack bg="gray.100" rounded="lg" p="5" spacing="4">
-            <Heading color={colors.pink} size="sm">
-              Baby
-            </Heading>
-          </VStack>
-          <VStack bg="gray.100" rounded="lg" p="5" spacing="4">
-            <Heading color={colors.pink} size="sm">
-              Wedding
-            </Heading>
-          </VStack>
-          <VStack bg="gray.100" rounded="lg" p="5" spacing="4">
-            <Heading color={colors.pink} size="sm">
-              Divorce
-            </Heading>
-          </VStack>
-          <VStack bg="gray.100" rounded="lg" p="5" spacing="4">
-            <Heading color={colors.pink} size="sm">
-              School
-            </Heading>
-          </VStack>
-          <VStack bg="gray.100" rounded="lg" p="5" spacing="4">
-            <Heading color={colors.pink} size="sm">
-              Other
-            </Heading>
-          </VStack>
-        </HStack> */}
         <HStack {...group}>
           {options.map((value) => {
             const radio = getRadioProps({ value });
@@ -86,7 +54,7 @@ const CreatePage = () => {
         </Heading>
         <Input type="text" placeholder="City, State" bg="white" />
         <Heading size="lg" fontWeight="semibold" textAlign="center">
-          Let's get listing!
+          {"Let's get listing!"}
         </Heading>
         <VStack
           p="14"
@@ -120,7 +88,7 @@ const CreatePage = () => {
             Price
           </Heading>
           <InputGroup size="lg">
-            <InputLeftAddon children="$" bg="gray.200" />
+            <InputLeftAddon bg="gray.200">$</InputLeftAddon>
             <Input
               type="number"
               placeholder="Price"
