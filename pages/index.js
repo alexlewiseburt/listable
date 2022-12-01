@@ -13,12 +13,7 @@ import PinkLink from "../src/components/pink-link";
 
 const HomePage = () => {
   return (
-    <Center
-      h="calc(100vh - 100px)"
-      bg="gray.200"
-      bgImg="background.jpg"
-      bgPosition="center"
-    >
+    <Center h="calc(100vh - 100px)" bgImg="background.jpg" bgPosition="center">
       <VStack bg="white" rounded="lg" p="5" spacing="4">
         <Heading color={colors.pink} size="sm">
           Make a list for any stage in life
