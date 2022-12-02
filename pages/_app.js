@@ -3,11 +3,14 @@ import Layout from "../src/components/layout";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ChakraProvider>
+    <>
+      <title>Listable</title>
+      <ChakraProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ChakraProvider>
+    </>
   );
 }
 
