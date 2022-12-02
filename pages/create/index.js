@@ -5,7 +5,6 @@ import {
   Box,
   Input,
   Button,
-  color,
   InputGroup,
   InputLeftAddon,
   useRadioGroup,

@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, HStack, Link, VStack } from "@chakra-ui/react";
 import NextLink from "next/link";
 import colors from "../colors";
 
@@ -10,15 +10,15 @@ const Navbar = () => {
         <Heading fontWeight="normal" mr="3">
           LISTABLE
         </Heading>
-        <NextLink href="/" passHref>
-          <Link>Home</Link>
-        </NextLink>
-        <NextLink href="/create" passHref>
-          <Link>Create</Link>
-        </NextLink>
-        <NextLink href="/lists" passHref>
-          <Link>Find</Link>
-        </NextLink>
+        <Link as={NextLink} href="/">
+          Home
+        </Link>
+        <Link as={NextLink} href="/create">
+          Create
+        </Link>
+        <Link as={NextLink} href="/lists">
+          Find
+        </Link>
       </HStack>
     </VStack>
   );

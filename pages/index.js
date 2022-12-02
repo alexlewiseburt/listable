@@ -22,12 +22,12 @@ const HomePage = () => {
           Online list creator for everyone, including you!
         </Heading>
         <HStack>
-          <NextLink href="/create" passHref>
-            <PinkLink>Create a list</PinkLink>
-          </NextLink>
-          <NextLink href="/lists" passHref>
-            <PinkLink>Find a list</PinkLink>
-          </NextLink>
+          <PinkLink as={NextLink} href="/create">
+            Create a list
+          </PinkLink>
+          <PinkLink as={NextLink} href="/lists">
+            Find a list
+          </PinkLink>
         </HStack>
       </VStack>
     </Center>

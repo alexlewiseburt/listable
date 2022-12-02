@@ -1,5 +1,19 @@
-import { Box, Heading, HStack, Text, VStack, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  Link,
+  TableContainer,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
+import colors from "../../src/colors";
 
 const ListsPage = () => {
   const lists = [
@@ -26,24 +40,6 @@ const ListsPage = () => {
     },
   ];
 
-  const listRows = lists.map((list) => {
-    const date = new Date(0);
-    date.setSeconds(list.date);
-
-    return (
-      <Box w="100%" key={`list-row-${list.id}`}>
-        <NextLink href={`/lists/${list.id}`}>
-          <HStack>
-            <Text minW="25%">{list.name}</Text>
-            <Text minW="25%">{list.type}</Text>
-            <Text minW="25%">{date.toLocaleDateString()}</Text>
-            <Text minW="25%">{list.location}</Text>
-          </HStack>
-        </NextLink>
-      </Box>
-    );
-  });
-
   return (
     <Box
       minH="calc(100vh - 100px)"
@@ -58,7 +54,57 @@ const ListsPage = () => {
         <Text size="sm" fontWeight="bold" textAlign="center">
           Select a list from the options below
         </Text>
-        {listRows}
+        <TableContainer w="100%">
+          <Table variant="striped" colorScheme="gray">
+            <Thead>
+              <Tr>
+                <Th color={colors.pink} fontSize="md">
+                  Name
+                </Th>
+                <Th color={colors.pink} fontSize="md">
+                  Type
+                </Th>
+                <Th color={colors.pink} fontSize="md">
+                  Date
+                </Th>
+                <Th color={colors.pink} fontSize="md">
+                  Location
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {lists.map((list) => {
+                const date = new Date(0);
+                date.setSeconds(list.date);
+
+                return (
+                  <Tr key={`list-row-${list.id}`}>
+                    <Td>
+                      <Link as={NextLink} href={`/lists/${list.id}`}>
+                        {list.name}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link as={NextLink} href={`/lists/${list.id}`}>
+                        {list.type}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link as={NextLink} href={`/lists/${list.id}`}>
+                        {date.toLocaleDateString()}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link as={NextLink} href={`/lists/${list.id}`}>
+                        {list.location}
+                      </Link>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </VStack>
     </Box>
   );
