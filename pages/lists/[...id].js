@@ -27,6 +27,7 @@ const ViewListPage = () => {
     `/api/lists/${id}`,
     {
       manual: true,
+      autoCancel: false,
     }
   );
 
