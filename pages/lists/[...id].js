@@ -1,16 +1,21 @@
 import {
   Box,
+  Center,
   Heading,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
   VStack,
 } from "@chakra-ui/react";
+import useAxios from "axios-hooks";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import colors from "../../src/colors";
 import PinkLink from "../../src/components/pink-link";
 
@@ -18,27 +23,35 @@ const ViewListPage = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  const list = {
-    id: 1,
-    name: "Alex Baby List",
-    type: "Baby",
-    date: 1669872243,
-    location: "Michigan",
-    items: [
-      {
-        id: 1,
-        name: "Diapers",
-        link: "https://google.com",
-        price: 13.99,
-      },
-      {
-        id: 2,
-        name: "Bottles",
-        link: "https://google.com",
-        price: 10.31,
-      },
-    ],
-  };
+  const [{ data: list, loading, error }, refetch] = useAxios(
+    `/api/lists/${id}`,
+    {
+      manual: true,
+    }
+  );
+
+  useEffect(() => {
+    if (id) {
+      refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  if (loading || !list) {
+    return (
+      <Center minH="calc(100vh - 100px)">
+        <Spinner size="xl" />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Center minH="calc(100vh - 100px)">
+        <Text>Error loading page - {error}</Text>
+      </Center>
+    );
+  }
 
   return (
     <Box

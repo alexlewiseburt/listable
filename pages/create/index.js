@@ -10,17 +10,85 @@ import {
   useRadioGroup,
   useRadio,
 } from "@chakra-ui/react";
+import useAxios from "axios-hooks";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 import colors from "../../src/colors";
 
 const CreatePage = () => {
   const options = ["Birthday", "Baby", "Wedding", "Divorce", "School", "Other"];
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [date, setDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [items, setItems] = useState([]);
+
+  const [itemName, setItemName] = useState("");
+  const [itemLink, setItemLink] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "framework",
-    onChange: console.log,
+    onChange: setType,
   });
 
   const group = getRootProps();
+
+  const router = useRouter();
+  const [{ data: list, loading, error }, postList] = useAxios(
+    {
+      url: "/api/lists",
+      method: "POST",
+    },
+    {
+      manual: true,
+    }
+  );
+
+  useEffect(() => {
+    if (list) {
+      router.push("/lists");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [list]);
+
+  const onAddItemClick = () => {
+    setItems((items) => [
+      ...items,
+      { name: itemName, link: itemLink, price: itemPrice },
+    ]);
+    setItemName("");
+    setItemLink("");
+    setItemPrice("");
+  };
+
+  const onSubmitClick = () => {
+    let allItems;
+
+    if (itemName && itemLink && itemPrice) {
+      allItems = [
+        ...items,
+        { name: itemName, link: itemLink, price: itemPrice },
+      ];
+    } else {
+      allItems = items;
+    }
+
+    const data = {
+      name,
+      type,
+      date: new Date(date).getTime() / 1000,
+      location,
+      items: allItems.map((item) => ({
+        ...item,
+        price: Number(item.price),
+      })),
+    };
+
+    postList({
+      data,
+    });
+  };
 
   return (
     <Box
@@ -31,7 +99,15 @@ const CreatePage = () => {
     >
       <VStack spacing="14" p="14" bg="whiteAlpha.700" mx="50" rounded="lg">
         <Heading size="lg" fontWeight="semibold" textAlign="center">
-          Always give without remembering and always receive without forgetting.
+          What is your name?
+        </Heading>
+        <Input
+          type="text"
+          bg="white"
+          placeholder="Name"
+          onChange={(event) => setName(event.target.value)}
+        />
+        <Heading size="lg" fontWeight="semibold" textAlign="center">
           What are you celebrating today?
         </Heading>
         <HStack {...group}>
@@ -47,11 +123,20 @@ const CreatePage = () => {
         <Heading size="lg" fontWeight="semibold" textAlign="center">
           Congrats! When is this happening?
         </Heading>
-        <Input type="date" bg="white" />
+        <Input
+          type="date"
+          bg="white"
+          onChange={(event) => setDate(event.target.value)}
+        />
         <Heading size="lg" fontWeight="semibold" textAlign="center">
           Where will this exciting thing be happening?
         </Heading>
-        <Input type="text" placeholder="City, State" bg="white" />
+        <Input
+          type="text"
+          placeholder="City, State"
+          bg="white"
+          onChange={(event) => setLocation(event.target.value)}
+        />
         <Heading size="lg" fontWeight="semibold" textAlign="center">
           {"Let's get listing!"}
         </Heading>
@@ -72,6 +157,8 @@ const CreatePage = () => {
             _placeholder={{ opacity: 0.4 }}
             size="lg"
             bg="white"
+            value={itemName}
+            onChange={(event) => setItemName(event.target.value)}
           />
           <Heading size="sm" fontWeight="bold">
             Link
@@ -82,6 +169,8 @@ const CreatePage = () => {
             _placeholder={{ opacity: 0.4 }}
             size="lg"
             bg="white"
+            value={itemLink}
+            onChange={(event) => setItemLink(event.target.value)}
           />
           <Heading size="sm" fontWeight="bold">
             Price
@@ -93,13 +182,27 @@ const CreatePage = () => {
               placeholder="Price"
               _placeholder={{ opacity: 0.4 }}
               bg="white"
+              value={itemPrice}
+              onChange={(event) => setItemPrice(event.target.value)}
             />
           </InputGroup>
-          <Button color="white" bg={colors.pink} alignSelf="flex-end" size="xs">
+          <Button
+            color="white"
+            bg={colors.pink}
+            alignSelf="flex-end"
+            size="xs"
+            onClick={onAddItemClick}
+          >
             Add another item
           </Button>
         </VStack>
-        <Button px="10" color="white" bg={colors.pink}>
+        <Button
+          px="10"
+          color="white"
+          bg={colors.pink}
+          onClick={onSubmitClick}
+          isLoading={loading}
+        >
           Submit
         </Button>
       </VStack>

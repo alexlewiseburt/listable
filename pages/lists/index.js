@@ -11,34 +11,39 @@ import {
   Th,
   Tbody,
   Td,
+  Center,
+  Spinner,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import useAxios from "axios-hooks";
 import colors from "../../src/colors";
+import { useEffect } from "react";
 
 const ListsPage = () => {
-  const lists = [
-    {
-      id: 1,
-      name: "Alex Baby List",
-      type: "Baby",
-      date: 1669872243,
-      location: "Michigan",
-    },
-    {
-      id: 2,
-      name: "Jeffrey Wedding",
-      type: "Wedding",
-      date: 1669872319,
-      location: "Michigan",
-    },
-    {
-      id: 3,
-      name: "Axl Birthday",
-      type: "Birthday",
-      date: 1669872359,
-      location: "California",
-    },
-  ];
+  const [{ data: lists, loading, error }, refetch] = useAxios("/api/lists", {
+    manual: true,
+    autoCancel: false,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  if (loading || !lists) {
+    return (
+      <Center minH="calc(100vh - 100px)">
+        <Spinner size="xl" />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Center minH="calc(100vh - 100px)">
+        <Text>Error loading page - {error}</Text>
+      </Center>
+    );
+  }
 
   return (
     <Box
