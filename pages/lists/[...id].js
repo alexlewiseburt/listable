@@ -37,7 +37,7 @@ const ViewListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  if (loading || !list) {
+  if ((loading || !list) && !error) {
     return (
       <Center minH="calc(100vh - 100px)">
         <Spinner size="xl" />

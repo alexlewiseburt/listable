@@ -29,7 +29,7 @@ const ListsPage = () => {
     refetch();
   }, [refetch]);
 
-  if (loading || !lists) {
+  if ((loading || !lists) && !error) {
     return (
       <Center minH="calc(100vh - 100px)">
         <Spinner size="xl" />
